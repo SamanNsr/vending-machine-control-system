@@ -1,5 +1,10 @@
 package config
 
+import (
+	"github.com/samannsr/vending-machine-control-system/pkg/constant"
+	"github.com/samannsr/vending-machine-control-system/pkg/env"
+)
+
 var BaseConfig *Config
 
 type Config struct {
@@ -21,5 +26,13 @@ func init() {
 }
 
 func newConfig() *Config {
-	return &Config{}
+	return &Config{
+		App: AppConfig{
+			AppEnv:  env.New("APP_ENV", constant.AppEnvDev).AsString(),
+			AppName: env.New("APP_NAME", constant.AppName).AsString(),
+		},
+		Http: HttpConfig{
+			Port: env.New("HTTP_PORT", constant.HttpPort).AsInt(),
+		},
+	}
 }
