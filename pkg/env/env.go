@@ -27,7 +27,7 @@ func LoadEnv() {
 		log.Fatal("Error generating env dir")
 	}
 
-	dir := filepath.Join(filepath.Dir(callerDir), "../..", "envs/.env")
+	dir := filepath.Join(filepath.Dir(callerDir), "../..", "env/.env")
 	err := godotenv.Load(dir)
 	if err != nil {
 		log.Fatal("Error loading .env file")
