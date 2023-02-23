@@ -13,3 +13,6 @@ const (
 const (
 	HttpPort = 8080
 )
+const (
+	ContentTypeJSON = "application/problem+json"
+)
