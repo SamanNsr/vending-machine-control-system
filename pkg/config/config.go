@@ -14,7 +14,6 @@ type AppConfig struct {
 
 type HttpConfig struct {
 	Port int
-	Host string
 }
 
 func init() {
