@@ -11,8 +11,7 @@ const (
 
 // Http
 const (
-	HttpPort = 8080
-)
-const (
+	HttpPort        = 8080
+	EchoGzipLevel   = 5
 	ContentTypeJSON = "application/problem+json"
 )
