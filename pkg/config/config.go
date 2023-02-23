@@ -36,3 +36,15 @@ func newConfig() *Config {
 		},
 	}
 }
+
+func IsDevEnv() bool {
+	return BaseConfig.App.AppEnv == constant.AppEnvDev
+}
+
+func IsProdEnv() bool {
+	return BaseConfig.App.AppEnv == constant.AppEnvProd
+}
+
+func IsTestEnv() bool {
+	return BaseConfig.App.AppEnv == constant.AppEnvTest
+}
