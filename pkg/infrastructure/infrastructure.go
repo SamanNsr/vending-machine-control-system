@@ -1,4 +1,4 @@
-package infraContainer
+package infrastructure
 
 import (
 	"context"
