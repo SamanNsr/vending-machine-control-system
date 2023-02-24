@@ -27,7 +27,7 @@ type Configurator interface {
 type UseCase interface {
 	InsertCoin(ctx context.Context, dto *vendingMachineDto.InsertCoinRequestDto) (*vendingMachineDto.InsertCoinResponseDto, error)
 	SelectProduct(ctx context.Context, dto *vendingMachineDto.SelectProductRequestDto) (*vendingMachineDto.SelectProductResponseDto, error)
-	GetVendingMachineById(ctx context.Context, dto *vendingMachineDto.InsertCoinRequestDto) (*VendingMachine, error)
+	GetVendingMachineById(ctx context.Context, dto *vendingMachineDto.GetVendingMachineByIdRequestDto) (*VendingMachine, error)
 }
 
 type Repository interface {
