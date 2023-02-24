@@ -24,8 +24,7 @@ This endpoint is used to get the details of a vending machine.
     "Cola": 9,
     "Coffee": 20
   },
-  "Coins": 1,
-  "LastAccess": "0001-01-01T00:00:00Z"
+  "Coins": 1
 }
 ```
 
