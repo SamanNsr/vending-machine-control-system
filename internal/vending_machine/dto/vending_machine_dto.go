@@ -46,3 +46,17 @@ type SelectProductResponseDto struct {
 	Message   string `json:"message"`
 	Status    string `json:"status"`
 }
+
+type GetVendingMachineByIdRequestDto struct {
+	MachineID int `json:"id"`
+}
+
+func (icDto *InsertCoinRequestDto) ValidateGetVendingMachineByIdRequestDto() error {
+	return validator.ValidateStruct(icDto,
+		validator.Field(
+			&icDto.MachineID,
+			validator.Required,
+			validator.In(vendingMachineConstants.ColaType, vendingMachineConstants.CoffeeType),
+		),
+	)
+}
