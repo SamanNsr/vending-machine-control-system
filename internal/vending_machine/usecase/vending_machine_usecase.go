@@ -23,7 +23,8 @@ func NewUseCase(vm []vendingMachineDomain.VendingMachine) vendingMachineDomain.U
 		storage: make([]*InMemoryVendingMachineStorage, len(vm)),
 	}
 
-	for i, v := range vm {
+	for i := range vm {
+		v := vm[i]
 		u.storage[i] = &InMemoryVendingMachineStorage{
 			vm: &v,
 			mu: sync.RWMutex{},
@@ -44,6 +45,9 @@ func (uc *useCase) findVendingMachineById(ctx context.Context, id int) (*InMemor
 
 func (uc *useCase) GetVendingMachineById(ctx context.Context, dto *vendingMachineDto.InsertCoinRequestDto) (*vendingMachineDomain.VendingMachine, error) {
 	vmStorage, handledErr := uc.findVendingMachineById(ctx, dto.MachineID)
+	if handledErr != nil {
+		return nil, handledErr
+	}
 	return vmStorage.vm, handledErr
 }
 
@@ -52,12 +56,17 @@ func (uc *useCase) InsertCoin(ctx context.Context, dto *vendingMachineDto.Insert
 	if handledErr != nil {
 		return nil, handledErr
 	}
+
+	// Check if the machine is idle
+	if vmStorage.vm.Status != vendingMachineConstants.StatusIdle {
+		return nil, vendingMachineException.VendingMachineNotOkStatusBadRequestExc()
+	}
 	vmStorage.mu.Lock()
 	defer vmStorage.mu.Unlock()
 
 	// Check if the machine is idle
 	if vmStorage.vm.Status != vendingMachineConstants.StatusIdle {
-		return nil, vendingMachineException.VendingMachineNotIdleBadRequestExc()
+		return nil, vendingMachineException.VendingMachineNotOkStatusBadRequestExc()
 	}
 
 	if vmStorage.vm.Inventory.Coffee <= 0 || vmStorage.vm.Inventory.Cola <= 0 {
