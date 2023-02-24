@@ -33,6 +33,15 @@ func NewUseCase(vm []vendingMachineDomain.VendingMachine) vendingMachineDomain.U
 	return u
 }
 
+func (uc *useCase) GetVendingMachineById(ctx context.Context, dto *vendingMachineDto.InsertCoinRequestDto) (*vendingMachineDomain.VendingMachine, error) {
+	for _, storage := range uc.storage {
+		if storage.vm.ID == dto.MachineID {
+			return storage.vm, nil
+		}
+	}
+	return nil, vendingMachineException.VendingMachineNotFoundExc()
+}
+
 func (uc *useCase) InsertCoin(ctx context.Context, dto *vendingMachineDto.InsertCoinRequestDto) (*vendingMachineDto.InsertCoinResponseDto, error) {
 	for _, vmStorage := range uc.storage {
 		// Find the correct vending machine by ID
