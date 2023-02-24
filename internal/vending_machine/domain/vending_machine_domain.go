@@ -4,15 +4,13 @@ import (
 	"context"
 	"github.com/labstack/echo/v4"
 	vendingMachineDto "github.com/samannsr/vending-machine-control-system/internal/vending_machine/dto"
-	"time"
 )
 
 type VendingMachine struct {
-	ID         int `json:"id"`
-	Status     string
-	Inventory  *Inventory
-	Coins      int
-	LastAccess time.Time
+	ID        int `json:"id"`
+	Status    string
+	Inventory *Inventory
+	Coins     int
 }
 
 type Inventory struct {
