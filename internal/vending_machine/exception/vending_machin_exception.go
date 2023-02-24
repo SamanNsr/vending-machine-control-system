@@ -9,10 +9,14 @@ func VendingMachineNotFoundExc() error {
 	return customErrors.NewNotFoundError(errorConstant.ErrorLists.NotFoundError.Msg, errorConstant.ErrorLists.NotFoundError.Code, nil)
 }
 
-func VendingMachineNotIdleBadRequestExc() error {
-	return customErrors.NewNotFoundError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+func VendingMachineNotOkStatusBadRequestExc() error {
+	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func VendingMachineNoInventoryBadRequestExc() error {
-	return customErrors.NewNotFoundError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+}
+
+func VendingMachineInvalidProductBadRequestExc() error {
+	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
