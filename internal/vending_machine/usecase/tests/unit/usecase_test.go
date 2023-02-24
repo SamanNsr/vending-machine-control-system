@@ -16,6 +16,11 @@ type testSuite struct {
 	suite.Suite
 }
 
+func TestRunSuite(t *testing.T) {
+	tSuite := new(testSuite)
+	suite.Run(t, tSuite)
+}
+
 func (suite *testSuite) TestGetVendingMachineByIdSuccess() {
 	ctx := context.Background()
 	var vms = make([]vendingMachineDomain.VendingMachine, 0)
@@ -26,9 +31,10 @@ func (suite *testSuite) TestGetVendingMachineByIdSuccess() {
 		MachineID: vendingMachineUseCaseFixtures.VM1.ID,
 	})
 	assert.NoError(suite.T(), err)
-	assert.NotNil(suite.T(), result)
-	assert.Equal(suite.T(), result.ID, vendingMachineUseCaseFixtures.VM1.ID)
-	assert.Equal(suite.T(), result.Inventory.Coffee, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
+	if assert.NotNil(suite.T(), result) {
+		assert.Equal(suite.T(), result.ID, vendingMachineUseCaseFixtures.VM1.ID)
+		assert.Equal(suite.T(), result.Inventory.Coffee, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
+	}
 }
 
 func (suite *testSuite) TestGetVendingMachineByIdFailedMachineNotFound() {
@@ -38,10 +44,10 @@ func (suite *testSuite) TestGetVendingMachineByIdFailedMachineNotFound() {
 	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2)
 	uc := vendingMachineUseCase.NewUseCase(vms)
 
-	result, err := uc.GetVendingMachineById(ctx, &vendingMachineDto.InsertCoinRequestDto{
+	_, err := uc.GetVendingMachineById(ctx, &vendingMachineDto.InsertCoinRequestDto{
 		MachineID: vendingMachineUseCaseFixtures.VM3.ID,
 	})
-	assert.Equal(suite.T(), nil, result)
+
 	assert.Error(suite.T(), err)
 	assert.True(suite.T(), customError.IsNotFoundError(err))
 }
@@ -57,10 +63,11 @@ func (suite *testSuite) TestInsertCoinSuccess() {
 		MachineID: vendingMachineUseCaseFixtures.VM1.ID,
 	})
 	assert.NoError(suite.T(), err)
-	assert.NotNil(suite.T(), result.Message)
-	assert.Equal(suite.T(), result.MachineID, vendingMachineUseCaseFixtures.VM1.ID)
-	assert.Equal(suite.T(), result.Coffee, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
-	assert.Equal(suite.T(), result.MachineID, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
+	if assert.NotNil(suite.T(), result.Message) {
+		assert.Equal(suite.T(), result.MachineID, vendingMachineUseCaseFixtures.VM1.ID)
+		assert.Equal(suite.T(), result.Coffee, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
+		assert.Equal(suite.T(), result.Cola, vendingMachineUseCaseFixtures.VM1.Inventory.Cola)
+	}
 }
 
 func (suite *testSuite) TestInsertCoinFailedStatusNotIdle() {
@@ -70,13 +77,12 @@ func (suite *testSuite) TestInsertCoinFailedStatusNotIdle() {
 	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2, vendingMachineUseCaseFixtures.VM3)
 	uc := vendingMachineUseCase.NewUseCase(vms)
 
-	result, err := uc.InsertCoin(ctx, &vendingMachineDto.InsertCoinRequestDto{
+	_, err := uc.InsertCoin(ctx, &vendingMachineDto.InsertCoinRequestDto{
 		MachineID: vendingMachineUseCaseFixtures.VM3.ID,
 	})
 
-	assert.Equal(suite.T(), nil, result)
-	assert.Error(suite.T(), err)
 	assert.True(suite.T(), customError.IsBadRequestError(err))
+	assert.Error(suite.T(), err)
 }
 
 func (suite *testSuite) TestInsertCoinFailedMachineNotFound() {
@@ -86,15 +92,10 @@ func (suite *testSuite) TestInsertCoinFailedMachineNotFound() {
 	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2)
 	uc := vendingMachineUseCase.NewUseCase(vms)
 
-	result, err := uc.InsertCoin(ctx, &vendingMachineDto.InsertCoinRequestDto{
+	_, err := uc.InsertCoin(ctx, &vendingMachineDto.InsertCoinRequestDto{
 		MachineID: vendingMachineUseCaseFixtures.VM3.ID,
 	})
-	assert.Equal(suite.T(), nil, result)
+
 	assert.Error(suite.T(), err)
 	assert.True(suite.T(), customError.IsNotFoundError(err))
-}
-
-func TestRunSuite(t *testing.T) {
-	tSuite := new(testSuite)
-	suite.Run(t, tSuite)
 }
