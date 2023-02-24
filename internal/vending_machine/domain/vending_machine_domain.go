@@ -29,8 +29,8 @@ type UseCase interface {
 }
 
 type Repository interface {
-	GetVendingMachineByID(ctx context.Context, vmID int) (*VendingMachine, error)
-	UpdateVendingMachine(ctx context.Context, vm *VendingMachine) error
+	FindVendingMachineByID(vmID int) (*VendingMachine, error)
+	UpdateVendingMachine(vm *VendingMachine) error
 }
 
 type HttpController interface {
