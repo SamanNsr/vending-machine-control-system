@@ -2,6 +2,7 @@ package usecaseUnitTest
 
 import (
 	"context"
+	vendingMachineConstants "github.com/samannsr/vending-machine-control-system/internal/vending_machine/constanst"
 	vendingMachineDomain "github.com/samannsr/vending-machine-control-system/internal/vending_machine/domain"
 	vendingMachineDto "github.com/samannsr/vending-machine-control-system/internal/vending_machine/dto"
 	vendingMachineUseCase "github.com/samannsr/vending-machine-control-system/internal/vending_machine/usecase"
@@ -98,4 +99,25 @@ func (suite *testSuite) TestInsertCoinFailedMachineNotFound() {
 
 	assert.Error(suite.T(), err)
 	assert.True(suite.T(), customError.IsNotFoundError(err))
+}
+
+func (suite *testSuite) TestSelectProductSuccess() {
+	// Create a new vending machine with a cola and a coffee
+	ctx := context.Background()
+	var vms = make([]vendingMachineDomain.VendingMachine, 0)
+	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2, vendingMachineUseCaseFixtures.VM3)
+	uc := vendingMachineUseCase.NewUseCase(vms)
+
+	// Select a product
+	result, err := uc.SelectProduct(ctx, &vendingMachineDto.SelectProductRequestDto{
+		MachineID: vendingMachineUseCaseFixtures.VM3.ID,
+		Product:   vendingMachineConstants.ColaType,
+	})
+	assert.NoError(suite.T(), err)
+	if assert.NotNil(suite.T(), result) {
+		assert.Equal(suite.T(), vendingMachineUseCaseFixtures.VM3.ID, result.MachineID)
+		assert.Equal(suite.T(), vendingMachineConstants.StatusIdle, result.Status)
+		assert.NotNil(suite.T(), result.Message)
+	}
+
 }
