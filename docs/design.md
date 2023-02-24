@@ -14,17 +14,16 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Design
+This project is a vending machine control system that enables users to insert coins, select products, and get information about vending machines. The system is designed using a state machine pattern where the vending machine goes through different states such as "Idle" and "Selecting" based on user input and other conditions.
+
+![Screenshot](design_chart.jpg)
 
 ## Design Decisions
 
 The following design decisions were made:
 
-- PostgreSQL was chosen as the primary data store because of its robust support for ACID transactions and ability to handle large volumes of data.
-- Kafka was chosen as the message broker because of its high performance and ability to handle large amounts of data.
-- Redis was chosen as the cache because of its in-memory storage and ability to support multiple data structures.
-- gRPC was chosen as the API technology because of its efficient binary encoding and ability to support streaming requests and responses.
 - Echo was chosen as the web framework because of its lightweight and easy-to-use design.
-- Sentry was chosen for error tracking and reporting because of its comprehensive feature set and integrations with a wide range of technologies.
 - The project follows a clean architecture design pattern, with separate layers for the domain logic, application logic, and infrastructure. - This helps to improve the maintainability and testability of the codebase.
 
 ### See also
@@ -132,19 +131,6 @@ import "project/pkg/error/custum_errors"
 
 err := customErrors.NewBadRequestErrorWrap(err, "invalid parameter", code)
 ```
-
-## Diagrams and Mockups
-
-To include diagrams or mockups in the design.md file to illustrate the design of your project, you will need to create these visualizations using a diagramming tool or software. Here are a few options for creating diagrams and mockups:
-
-- dbdiagram.io: an online tool for creating and sharing database diagrams. It allows you to design the schema of your database visually, using a simple drag-and-drop interface. You can add tables, columns, and relationships to the diagram, and customize the appearance of the elements using a range of formatting options.
-- Draw.io: A web-based diagramming tool that allows you to create a wide range of diagrams, including flowcharts, mind maps, and UML diagrams.
-- Lucidchart: A web-based diagramming tool that offers a range of templates and shapes for creating professional-quality diagrams.
-- Figma: A web-based design and prototyping tool that allows you to create wireframes, mockups, and prototypes for web and mobile applications.
-
-Once you have created the diagrams or mockups that you want to include in the design.md file, you can add them to the file by including the images inline or by linking to the images.
-
-[Include any relevant diagrams or mockups to illustrate the design]
 
 ## Open Issues and Areas for Improvement
 
