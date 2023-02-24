@@ -30,12 +30,8 @@ type UseCase interface {
 	GetVendingMachineById(ctx context.Context, dto *vendingMachineDto.GetVendingMachineByIdRequestDto) (*VendingMachine, error)
 }
 
-type Repository interface {
-	FindVendingMachineByID(vmID int) (*VendingMachine, error)
-	UpdateVendingMachine(vm *VendingMachine) error
-}
-
 type HttpController interface {
 	InsertCoin(c echo.Context) error
 	SelectProduct(c echo.Context) error
+	GetVendingMachineById(c echo.Context) error
 }
