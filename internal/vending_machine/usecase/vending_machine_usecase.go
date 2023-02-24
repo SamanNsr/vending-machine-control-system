@@ -43,7 +43,7 @@ func (uc *useCase) findVendingMachineById(ctx context.Context, id int) (*InMemor
 	return nil, vendingMachineException.VendingMachineNotFoundExc()
 }
 
-func (uc *useCase) GetVendingMachineById(ctx context.Context, dto *vendingMachineDto.InsertCoinRequestDto) (*vendingMachineDomain.VendingMachine, error) {
+func (uc *useCase) GetVendingMachineById(ctx context.Context, dto *vendingMachineDto.GetVendingMachineByIdRequestDto) (*vendingMachineDomain.VendingMachine, error) {
 	vmStorage, handledErr := uc.findVendingMachineById(ctx, dto.MachineID)
 	if handledErr != nil {
 		return nil, handledErr
@@ -61,6 +61,7 @@ func (uc *useCase) InsertCoin(ctx context.Context, dto *vendingMachineDto.Insert
 	if vmStorage.vm.Status != vendingMachineConstants.StatusIdle {
 		return nil, vendingMachineException.VendingMachineNotOkStatusBadRequestExc()
 	}
+
 	vmStorage.mu.Lock()
 	defer vmStorage.mu.Unlock()
 
@@ -89,4 +90,50 @@ func (uc *useCase) InsertCoin(ctx context.Context, dto *vendingMachineDto.Insert
 
 	// Vending machine not found
 	return nil, vendingMachineException.VendingMachineNotFoundExc()
+}
+
+func (uc *useCase) SelectProduct(ctx context.Context, dto *vendingMachineDto.SelectProductRequestDto) (*vendingMachineDto.SelectProductResponseDto, error) {
+	// Find the vending machine by ID
+	storageVm, handledErr := uc.findVendingMachineById(ctx, dto.MachineID)
+	if handledErr != nil {
+		return nil, handledErr
+	}
+
+	// Acquire a write lock on the vending machine to update its state
+	storageVm.mu.Lock()
+	defer storageVm.mu.Unlock()
+
+	// Check that the vending machine is in the Idle state
+	if storageVm.vm.Status != vendingMachineConstants.StatusSelecting {
+		return nil, vendingMachineException.VendingMachineInvalidProductBadRequestExc()
+	}
+
+	// Determine the selected product and its price
+	switch dto.Product {
+	case vendingMachineConstants.ColaType:
+		if storageVm.vm.Inventory.Cola < 1 {
+			return nil, vendingMachineException.VendingMachineNoInventoryBadRequestExc()
+		}
+		storageVm.vm.Inventory.Cola--
+		storageVm.vm.Status = vendingMachineConstants.StatusIdle
+		return &vendingMachineDto.SelectProductResponseDto{
+			MachineID: dto.MachineID,
+			Status:    storageVm.vm.Status,
+			Message:   "Enjoy your colaaa :))))))",
+		}, nil
+	case vendingMachineConstants.CoffeeType:
+		if storageVm.vm.Inventory.Coffee < 1 {
+			return nil, vendingMachineException.VendingMachineNoInventoryBadRequestExc()
+		}
+		storageVm.vm.Inventory.Coffee--
+		storageVm.vm.Status = vendingMachineConstants.StatusIdle
+		return &vendingMachineDto.SelectProductResponseDto{
+			MachineID: dto.MachineID,
+			Status:    storageVm.vm.Status,
+			Message:   "Enjoy your coffeee :))))))",
+		}, nil
+	default:
+		return nil, vendingMachineException.VendingMachineInvalidProductBadRequestExc()
+	}
+
 }
