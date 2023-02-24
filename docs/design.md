@@ -3,7 +3,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Key Components and Features](#key-components-and-features)
 - [Design Decisions](#design-decisions)
   - [See also](#see-also)
 - [Protocol Buffer](#protocol-buffer)
@@ -15,18 +14,6 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-This document outlines the design of the project, including the key components and features, design decisions, and technologies used.
-
-## Key Components and Features
-
-The project includes the following components and features:
-
-- A PostgreSQL database for storing and querying data
-- A Kafka message broker for reliable, scalable event streaming
-- A Redis cache for improving performance and reducing load on the database
-- A gRPC API for efficient communication between services
-- An Echo framework for building HTTP APIs and web applications
-- Sentry integration for error tracking and reporting
 
 ## Design Decisions
 
@@ -46,11 +33,6 @@ The following design decisions were made:
 - [Zap Logger](https://github.com/uber-go/zap) for logging
 - [OZZO](github.com/go-ozzo/ozzo-validation) for data validation
 
-
-## API docs
-
-The template doesn't have API docs. For auto-generated API docs that you include, you can also give instructions on the
-build process.
 
 ## Layout
 
