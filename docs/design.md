@@ -14,7 +14,6 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Design
 This project is a vending machine control system that enables users to insert coins, select products, and get information about vending machines. The system is designed using a state machine pattern where the vending machine goes through different states such as "Idle" and "Selecting" based on user input and other conditions.
 
 ![Screenshot](design_chart.jpg)
