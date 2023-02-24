@@ -99,7 +99,7 @@ func (uc *useCase) SelectProduct(ctx context.Context, dto *vendingMachineDto.Sel
 		return nil, handledErr
 	}
 
-	// Acquire a write lock on the vending machine to update its state
+	// Acquire write lock on the vending machine to update its state
 	storageVm.mu.Lock()
 	defer storageVm.mu.Unlock()
 
