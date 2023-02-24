@@ -12,3 +12,7 @@ func VendingMachineNotFoundExc() error {
 func VendingMachineNotIdleBadRequestExc() error {
 	return customErrors.NewNotFoundError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
+
+func VendingMachineNoInventoryBadRequestExc() error {
+	return customErrors.NewNotFoundError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+}
