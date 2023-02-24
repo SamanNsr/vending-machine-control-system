@@ -5,7 +5,7 @@ import (
 	vendingMachineDomain "github.com/samannsr/vending-machine-control-system/internal/vending_machine/domain"
 	vendingMachineDto "github.com/samannsr/vending-machine-control-system/internal/vending_machine/dto"
 	vendingMachineUseCase "github.com/samannsr/vending-machine-control-system/internal/vending_machine/usecase"
-	"github.com/samannsr/vending-machine-control-system/internal/vending_machine/usecase/tests/fixtures"
+	vendingMachineUseCaseFixtures "github.com/samannsr/vending-machine-control-system/internal/vending_machine/usecase/tests/fixtures"
 	customError "github.com/samannsr/vending-machine-control-system/pkg/error/custom_error"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
@@ -16,32 +16,62 @@ type testSuite struct {
 	suite.Suite
 }
 
+func (suite *testSuite) TestGetVendingMachineByIdSuccess() {
+	ctx := context.Background()
+	var vms = make([]vendingMachineDomain.VendingMachine, 0)
+	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2)
+	uc := vendingMachineUseCase.NewUseCase(vms)
+
+	result, err := uc.GetVendingMachineById(ctx, &vendingMachineDto.InsertCoinRequestDto{
+		MachineID: vendingMachineUseCaseFixtures.VM1.ID,
+	})
+	assert.NoError(suite.T(), err)
+	assert.NotNil(suite.T(), result)
+	assert.Equal(suite.T(), result.ID, vendingMachineUseCaseFixtures.VM1.ID)
+	assert.Equal(suite.T(), result.Inventory.Coffee, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
+}
+
+func (suite *testSuite) TestGetVendingMachineByIdFailedMachineNotFound() {
+	// Create new vending machines
+	ctx := context.Background()
+	var vms = make([]vendingMachineDomain.VendingMachine, 0)
+	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2)
+	uc := vendingMachineUseCase.NewUseCase(vms)
+
+	result, err := uc.GetVendingMachineById(ctx, &vendingMachineDto.InsertCoinRequestDto{
+		MachineID: vendingMachineUseCaseFixtures.VM3.ID,
+	})
+	assert.Equal(suite.T(), nil, result)
+	assert.Error(suite.T(), err)
+	assert.True(suite.T(), customError.IsNotFoundError(err))
+}
+
 func (suite *testSuite) TestInsertCoinSuccess() {
 	// Create new vending machines
 	ctx := context.Background()
 	var vms = make([]vendingMachineDomain.VendingMachine, 0)
-	vms = append(vms, vendingMachineRepositoryFixtures.VM1, vendingMachineRepositoryFixtures.VM2)
+	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2)
 	uc := vendingMachineUseCase.NewUseCase(vms)
 
 	result, err := uc.InsertCoin(ctx, &vendingMachineDto.InsertCoinRequestDto{
-		MachineID: vendingMachineRepositoryFixtures.VM1.ID,
+		MachineID: vendingMachineUseCaseFixtures.VM1.ID,
 	})
 	assert.NoError(suite.T(), err)
 	assert.NotNil(suite.T(), result.Message)
-	assert.Equal(suite.T(), result.MachineID, vendingMachineRepositoryFixtures.VM1.ID)
-	assert.Equal(suite.T(), result.Coffee, vendingMachineRepositoryFixtures.VM1.Inventory.Coffee)
-	assert.Equal(suite.T(), result.MachineID, vendingMachineRepositoryFixtures.VM1.Inventory.Coffee)
+	assert.Equal(suite.T(), result.MachineID, vendingMachineUseCaseFixtures.VM1.ID)
+	assert.Equal(suite.T(), result.Coffee, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
+	assert.Equal(suite.T(), result.MachineID, vendingMachineUseCaseFixtures.VM1.Inventory.Coffee)
 }
 
 func (suite *testSuite) TestInsertCoinFailedStatusNotIdle() {
 	// Create new vending machines
 	ctx := context.Background()
 	var vms = make([]vendingMachineDomain.VendingMachine, 0)
-	vms = append(vms, vendingMachineRepositoryFixtures.VM1, vendingMachineRepositoryFixtures.VM2, vendingMachineRepositoryFixtures.VM3)
+	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2, vendingMachineUseCaseFixtures.VM3)
 	uc := vendingMachineUseCase.NewUseCase(vms)
 
 	result, err := uc.InsertCoin(ctx, &vendingMachineDto.InsertCoinRequestDto{
-		MachineID: vendingMachineRepositoryFixtures.VM3.ID,
+		MachineID: vendingMachineUseCaseFixtures.VM3.ID,
 	})
 
 	assert.Equal(suite.T(), nil, result)
@@ -53,11 +83,11 @@ func (suite *testSuite) TestInsertCoinFailedMachineNotFound() {
 	// Create new vending machines
 	ctx := context.Background()
 	var vms = make([]vendingMachineDomain.VendingMachine, 0)
-	vms = append(vms, vendingMachineRepositoryFixtures.VM1, vendingMachineRepositoryFixtures.VM2)
+	vms = append(vms, vendingMachineUseCaseFixtures.VM1, vendingMachineUseCaseFixtures.VM2)
 	uc := vendingMachineUseCase.NewUseCase(vms)
 
 	result, err := uc.InsertCoin(ctx, &vendingMachineDto.InsertCoinRequestDto{
-		MachineID: vendingMachineRepositoryFixtures.VM3.ID,
+		MachineID: vendingMachineUseCaseFixtures.VM3.ID,
 	})
 	assert.Equal(suite.T(), nil, result)
 	assert.Error(suite.T(), err)
