@@ -2,6 +2,7 @@ package vendingMachineDto
 
 import (
 	validator "github.com/go-ozzo/ozzo-validation"
+	vendingMachineConstants "github.com/samannsr/vending-machine-control-system/internal/vending_machine/constanst"
 )
 
 type InsertCoinRequestDto struct {
@@ -24,4 +25,24 @@ type InsertCoinResponseDto struct {
 	Status    string `json:"status"`
 	Cola      int    `json:"cola"`
 	Coffee    int    `json:"coffee"`
+}
+
+type SelectProductRequestDto struct {
+	Product string `json:"product"`
+}
+
+func (icDto *SelectProductRequestDto) ValidateSelectProductRequestDto() error {
+	return validator.ValidateStruct(icDto,
+		validator.Field(
+			&icDto.Product,
+			validator.Required,
+			validator.In(vendingMachineConstants.ColaType, vendingMachineConstants.CoffeeType),
+		),
+	)
+}
+
+type SelectProductResponseDto struct {
+	MachineID int    `json:"id"`
+	Message   string `json:"message"`
+	Status    string `json:"status"`
 }
