@@ -1,4 +1,4 @@
-package vendingMachineRepositoryFixtures
+package vendingMachineUseCaseFixtures
 
 import (
 	vendingMachineConstants "github.com/samannsr/vending-machine-control-system/internal/vending_machine/constanst"
