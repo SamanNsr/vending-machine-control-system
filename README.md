@@ -31,6 +31,7 @@ The repo is used to handle vending machine as a central systems.
 ## Reference
 
 - [Deployment Instructions](docs/deployment.md)
+- [API Docs](docs/api.md)
 - [Design Decisions and Technical Considerations](docs/design.md)
 - [Environment Variables](docs/env.md)
 

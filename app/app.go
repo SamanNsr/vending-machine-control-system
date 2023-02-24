@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	vendingMachineConfigurator "github.com/samannsr/vending-machine-control-system/internal/vending_machine/configurator"
 	"os"
 	"os/signal"
 	"syscall"
@@ -54,5 +55,10 @@ func (a *App) Run() error {
 }
 
 func configureModule(ctx context.Context, ic *infrastructure.IContainer) error {
+	err := vendingMachineConfigurator.NewConfigurator(ic).Configure(ctx)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
