@@ -28,13 +28,19 @@ type InsertCoinResponseDto struct {
 }
 
 type SelectProductRequestDto struct {
-	Product string `json:"product"`
+	MachineID int    `json:"id"`
+	Product   string `json:"product"`
 }
 
-func (icDto *SelectProductRequestDto) ValidateSelectProductRequestDto() error {
-	return validator.ValidateStruct(icDto,
+func (spDto *SelectProductRequestDto) ValidateSelectProductRequestDto() error {
+	return validator.ValidateStruct(spDto,
 		validator.Field(
-			&icDto.Product,
+			&spDto.MachineID,
+			validator.Required,
+			validator.Min(1),
+		),
+		validator.Field(
+			&spDto.Product,
 			validator.Required,
 			validator.In(vendingMachineConstants.ColaType, vendingMachineConstants.CoffeeType),
 		),
@@ -51,10 +57,10 @@ type GetVendingMachineByIdRequestDto struct {
 	MachineID int `json:"id"`
 }
 
-func (icDto *InsertCoinRequestDto) ValidateGetVendingMachineByIdRequestDto() error {
-	return validator.ValidateStruct(icDto,
+func (gmDto *GetVendingMachineByIdRequestDto) ValidateGetVendingMachineByIdRequestDto() error {
+	return validator.ValidateStruct(gmDto,
 		validator.Field(
-			&icDto.MachineID,
+			&gmDto.MachineID,
 			validator.Required,
 			validator.In(vendingMachineConstants.ColaType, vendingMachineConstants.CoffeeType),
 		),
