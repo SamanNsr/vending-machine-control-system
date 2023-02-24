@@ -7,27 +7,27 @@ import (
 )
 
 func VendingMachineNotFoundExc() error {
-	return customErrors.NewNotFoundError(errorConstant.ErrorLists.NotFoundError.Msg, errorConstant.ErrorLists.NotFoundError.Code, nil)
+	return customErrors.NewNotFoundError("vending machine not found", errorConstant.ErrorLists.NotFoundError.Code, nil)
 }
 
 func VendingMachineNotOkStatusBadRequestExc() error {
-	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+	return customErrors.NewBadRequestError("vending machine status conflict", errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func VendingMachineNoInventoryBadRequestExc() error {
-	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+	return customErrors.NewBadRequestError("", errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func VendingMachineInvalidProductBadRequestExc() error {
-	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+	return customErrors.NewBadRequestError("invalid product type", errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func GetVendingMachineInvalidIdExc() error {
-	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
+	return customErrors.NewBadRequestError("invalid id", errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func InsertCoinBindingExc() error {
-	return customErrors.NewInternalServerError(errorConstant.ErrorLists.InternalServerError.Msg, errorConstant.ErrorLists.InternalServerError.Code, nil)
+	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func InsertCoinValidationExc(err error) error {
@@ -41,7 +41,7 @@ func InsertCoinValidationExc(err error) error {
 }
 
 func SelectProductBindingExc() error {
-	return customErrors.NewInternalServerError(errorConstant.ErrorLists.InternalServerError.Msg, errorConstant.ErrorLists.InternalServerError.Code, nil)
+	return customErrors.NewBadRequestError(errorConstant.ErrorLists.BadRequestError.Msg, errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func SelectProductValidationExc(err error) error {
