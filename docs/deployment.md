@@ -26,7 +26,7 @@ git clone https://github.com/samannsr/vending-machine-control-system.git
 cd vending-machine-control-system
 ```
 
-2. Create a .env file in the `envs` directory of the project and copy the `local.env` environment variables.
+2. Create a .env file in the `env` directory of the project and copy the `local.env` environment variables.
 
 3. Run the following command to build and start the containers:
 
