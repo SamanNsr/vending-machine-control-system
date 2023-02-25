@@ -15,7 +15,7 @@ func VendingMachineNotOkStatusBadRequestExc() error {
 }
 
 func VendingMachineNoInventoryBadRequestExc() error {
-	return customErrors.NewBadRequestError("", errorConstant.ErrorLists.BadRequestError.Code, nil)
+	return customErrors.NewBadRequestError("Not enough products in the inventory", errorConstant.ErrorLists.BadRequestError.Code, nil)
 }
 
 func VendingMachineInvalidProductBadRequestExc() error {

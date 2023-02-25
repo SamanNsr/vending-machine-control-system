@@ -48,7 +48,7 @@ var DefaultVMs = []vendingMachineDomain.VendingMachine{
 		Coins:  0,
 	},
 	{
-		ID: 2,
+		ID: 3,
 		Inventory: &vendingMachineDomain.Inventory{
 			Cola:   3,
 			Coffee: 1,

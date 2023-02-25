@@ -10,7 +10,6 @@ This is the code repository for [Vending Machine System Control](https://www.git
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [About the project](#about-the-project)
-- [Status](#status)
 - [Reference](#reference)
 - [Getting started](#getting-started)
     - [Prerequisites](#prerequisites)
@@ -50,13 +49,24 @@ git clone https://github.com/samannsr/vending-machine-control-system.git
 cd vending-machine-control-system
 ```
 
-2. Install the dependencies:
+2. Create a .env file in the `env` directory of the project and copy the `local.env` environment variables.
+
+      
+You can run the following command to build and start the containers:
+
+```bash
+docker-compose up -d --build
+```
+
+OR 
+
+3. Install the dependencies:
 
 ```bash
 make dep
 ```
 
-3. Run the development server:
+4. Run the development server:
 
 ```bash
 make run_dev
