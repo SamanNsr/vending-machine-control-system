@@ -87,9 +87,6 @@ func (uc *useCase) InsertCoin(ctx context.Context, dto *vendingMachineDto.Insert
 		Cola:      vmStorage.vm.Inventory.Cola,
 		Status:    vmStorage.vm.Status,
 	}, nil
-
-	// Vending machine not found
-	return nil, vendingMachineException.VendingMachineNotFoundExc()
 }
 
 func (uc *useCase) SelectProduct(ctx context.Context, dto *vendingMachineDto.SelectProductRequestDto) (*vendingMachineDto.SelectProductResponseDto, error) {
