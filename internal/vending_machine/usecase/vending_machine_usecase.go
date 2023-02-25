@@ -70,7 +70,7 @@ func (uc *useCase) InsertCoin(ctx context.Context, dto *vendingMachineDto.Insert
 		return nil, vendingMachineException.VendingMachineNotOkStatusBadRequestExc()
 	}
 
-	if vmStorage.vm.Inventory.Coffee <= 0 || vmStorage.vm.Inventory.Cola <= 0 {
+	if vmStorage.vm.Inventory.Coffee <= 0 && vmStorage.vm.Inventory.Cola <= 0 {
 		return nil, vendingMachineException.VendingMachineNoInventoryBadRequestExc()
 	}
 	// Add the coin to the vending machine
@@ -102,7 +102,7 @@ func (uc *useCase) SelectProduct(ctx context.Context, dto *vendingMachineDto.Sel
 
 	// Check that the vending machine is in the Idle state
 	if storageVm.vm.Status != vendingMachineConstants.StatusSelecting {
-		return nil, vendingMachineException.VendingMachineInvalidProductBadRequestExc()
+		return nil, vendingMachineException.VendingMachineNotOkStatusBadRequestExc()
 	}
 
 	// Determine the selected product and its price
